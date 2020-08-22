@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# deletes old versions
+""" deletes old versions"""
 
 from fabric import api
 import os
