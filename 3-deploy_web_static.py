@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-""" Fabric script deploy all the app """
+# Deploy a new version
 
-from fabric.api import *
-from os import path
+from fabric.api import run, local, sudo, put, env
+from datetime import datetime
 from os.path import isdir
+import os.path
 
 
 env.hosts = ['3.80.226.140', '54.83.103.89']
