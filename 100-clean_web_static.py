@@ -11,23 +11,17 @@ api.env.hosts = ['3.80.226.140', '54.83.103.89']
 
 def do_clean(number=0):
         """ Deletes olds versions """
-        n = int(number)
-        if n == 0:
-                n = 1
-        versions = sorted(os.listdir("versions"))
-        for files in range(number):
-                versions.pop()
-        with api.lcd("versions"):
-                for fl in versions:
-                        api.local("rm {}".format(fl))
-
-        with cd("/data/web_static/releases/"):
-                vers_files = api.run("ls -tr").split()
-        fls = []
-        for f in vers_files:
-                if "web_static" in f:
-                        fls.append(f)
-                for f in range(n):
-                        vers_files.pop()
-                for f in vers_files:
-                        api.run("rm -rf ./{}".format(f))
+    if number == 0 or number == 1:
+        with cd.local('./versions/'):
+            local("ls -lv | rev | cut -f 1 | rev | \
+            head -n +1 | xargs -d '\n' rm -rf")
+        with cd('/data/web_static/releases/'):
+            run("sudo ls -lv | rev | cut -f 1 | \
+            rev | head -n +1 | xargs -d '\n' rm -rf")
+    else:
+        with cd.local('./versions/'):
+            local("ls -lv | rev | cut -f 1 | rev | \
+            head -n +{} | xargs -d '\n' rm -rf".format(number))
+        with cd('/data/web_static/releases/'):
+            run("sudo ls -lv | rev | cut -f 1 | \
+            rev | head -n +{} | xargs -d '\n' rm -rf".format(number))
