@@ -1,49 +1,51 @@
 #!/usr/bin/python3
-""" deploy with fabric of static files of aribnb
+""" deploy with fabric of static files of airbnb
 """
 
-from fabric.api import *
-from os import path
+import os.path
+from fabric.api import env
+from fabric.api import put
+from fabric.api import run
+
 
 env.hosts = ['3.80.226.140', '54.83.103.89']
 
 
 def do_deploy(archive_path):
-    """Deploy the airbnb static
+    """Distributes an archive to a web server.
+    Args:
+        archive_path (str): The path of the archive to distribute.
+    Returns:
+        If the file doesn't exist at archive_path or an error occurs - False.
+        Otherwise - True.
     """
-    if not path.exists(archive_path):
+    if os.path.isfile(archive_path) is False:
         return False
-    ret_value = True
-    d_folder = put(archive_path, '/tmp/')
-    if d_folder.failed:
-        ret_value = False
-    archive_file = archive_path.replace(".tgz", "").replace("versions/", "")
-    d_dest = run('mkdir -p /data/web_static/releases/' + archive_file + '/')
-    if d_dest.failed:
-        ret_value = False
-    d_unpack = run('tar -xzf /tmp/' + archive_file + '.tgz' +
-                   ' -C /data/web_static/releases/' + archive_file + '/')
-    if d_unpack.failed:
-        ret_value = False
-    d_cleanfile = run('rm /tmp/' + archive_file + '.tgz')
-    if d_cleanfile.failed:
-        ret_value = False
-    d_move = run('mv /data/web_static/releases/' + archive_file +
-                 '/web_static/* /data/web_static/releases/' + archive_file +
-                 '/')
-    if d_move.failed:
-        ret_value = False
-    d_cleanfolder = run('rm -rf /data/web_static/releases/' + archive_file +
-                        '/web_static')
-    if d_cleanfolder.failed:
-        ret_value = False
-    d_removeold = run('rm -rf /data/web_static/current')
-    if d_removeold.failed:
-        ret_value = False
-    d_createnew = run('ln -sf /data/web_static/releases/' + archive_file +
-                      '/' + ' /data/web_static/current')
-    if d_createnew.failed:
-        ret_value = False
-    if ret_value:
-        print("All tasks succeeded!")
-    return ret_value
+    file = archive_path.split("/")[-1]
+    name = file.split(".")[0]
+
+    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("mkdir -p /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
+           format(file, name)).failed is True:
+        return False
+    if run("rm /tmp/{}".format(file)).failed is True:
+        return False
+    if run("mv /data/web_static/releases/{}/web_static/* "
+           "/data/web_static/releases/{}/".format(name, name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/web_static".
+           format(name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/current").failed is True:
+        return False
+    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
+           format(name)).failed is True:
+        return False
+    return True
