@@ -3,17 +3,19 @@
 
 from fabric.api import run, local, sudo
 from datetime import datetime
-
-n = datetime.now()
+from os.path import isdir
 
 
 def do_pack():
-    """Packs"""
-
-    fn = 'versions/web_static_{}{}{}{}{}{}.tgz'\
-        .format(n.year, n.month, n.day, n.hour, n.minute, n.second)
-    local('mkdir -p versions')
-    command = local("tar -cvzf " + fn + " ./web_static/")
-    if command.succeeded:
-        return fn
-    return None
+    """
+    Generate file
+    """
+    try:
+        time = datetime.now().strftime('%Y%m%d%H%M%S')
+        if isdir("versions") is False:
+            local("mkdir versions")
+        f = 'versions/web_static_' + time + '.tgz'
+        local('tar -cvzf {} web_static'.format(f))
+        return f
+    except:
+        return None
