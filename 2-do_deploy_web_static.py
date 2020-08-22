@@ -1,11 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """ deploy with fabric of static files of aribnb
 """
 
 from fabric.api import *
 from os import path
 
-env.hosts = ['34.75.26.100', '	35.237.221.251']
+env.hosts = ['3.80.226.140', '54.83.103.89']
 
 
 def do_deploy(archive_path):
