@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # deletes old versions
 
-from fabric.api import *
+from fabric import api
 import os
 
 
-env. user = 'ubuntu'
-env.hosts = ['3.80.226.140', '54.83.103.89']
+api.env.user = 'ubuntu'
+api.env.hosts = ['3.80.226.140', '54.83.103.89']
 
 
 def do_clean(number=0):
@@ -18,7 +18,7 @@ def do_clean(number=0):
     versions = sorted(os.listdir("versions"))
     for files in range(number):
         versions.pop()
-    with lcd("versions"):
+    with api.lcd("versions"):
         for fl in versions:
             api.local("rm {}".format(fl))
 
