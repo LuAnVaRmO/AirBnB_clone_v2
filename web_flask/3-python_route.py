@@ -23,6 +23,13 @@ def c_is(text):
     return "C {}".format(text.replace("_", " "))
 
 
+@app.route('/python/', strict_slashes=False)
+@app.route('/python/<text>/', strict_slashes=False)
+def python(text="is cool"):
+    """ display Python  + <text>.replace('_', ' ') """
+    return 'Python {}'.format(text.replace("_", " "))
+
+
 if __name__ == '__main__':
     """ port 5000 """
     app.run(host='0.0.0.0', port=5000)
