@@ -18,7 +18,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """initilize"""
+        """ initialize """
         DBStorage.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}"
                                            .format(getenv("HBNB_MYSQL_USER"),
                                                    getenv("HBNB_MYSQL_PWD"),
