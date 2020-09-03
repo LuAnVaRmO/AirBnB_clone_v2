@@ -52,7 +52,9 @@ button:hover {
 .popover {
 	display: none;
 	width: 90%;
-	height: auto;
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
 	background-color:#FAFAFA;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;

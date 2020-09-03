@@ -6,10 +6,10 @@
 	<!--Icon page-->
 	<link rel="icon" href="images/icon.png">
 	<!--Start Stylesheet import-->
-	<link href="styles/4-common.css" type="text/css" rel="stylesheet">
-	<link href="styles/3-header.css" type="text/css" rel="stylesheet">
-	<link href="styles/3-footer.css" type="text/css" rel="stylesheet">
-	<link href="styles/6-filters.css" type="text/css" rel="stylesheet">
+	<link href="..static/styles/4-common.css" type="text/css" rel="stylesheet">
+	<link href="..static/styles/3-header.css" type="text/css" rel="stylesheet">
+	<link href="..static/styles/3-footer.css" type="text/css" rel="stylesheet">
+	<link href="..static/styles/6-filters.css" type="text/css" rel="stylesheet">
 	<!--End Stylesheet import-->
 </head>
 
@@ -25,36 +25,29 @@
 		<section class="filters">
 			<div class="locations">
 				<h3>States</h3>
-				<h4>California, Arizona...</h4>
+				<h4>&nbsp;</h4>
 					<!--Pop over / Hover section-->
 					<ul class="popover">
-						<li>
-							<h2>Arizona:</h2>
+						{% for state in states|sort(attribute='name') %}
+							<li><h2>{{ state.name }}</h2></li>
 							<ul>
-								<li>Page</li>
-								<li>Page2</li>
+							{% for city in state.cities|sort(attribute='name') %}
+								<li><h4>{{ city.name }}</h4></li>
+							{% endfor %}
 							</ul>
-						</li>
-						<li>
-							<h2>California:</h2>
-							<ul>
-								<li>San Francisco</li>
-								<li>Los Altos</li>
-							</ul>
-						</li>
+						{% endfor %}
 					</ul>
 					<!--end popover-->
 			</div>
 
 			<div class="amenities">
 				<h3>Amenities</h3>
-				<h4>Internet, Kitchen...</h4>
+				<h4>&nbsp;</h4>
 					<!--Pop over / Hover section-->
 					<ul class="popover">
-						<li>Internet</li>
-						<li>TV</li>
-						<li>Kitchen</li>
-						<li>Iron</li>
+						<{% for amenity in amenities|sort(attribute='name') %}
+						<li><h4>{{ amenity.name }}</h4></li>
+						{% endfor %}
 					</ul>
 					<!--end popover-->
 			</div>
