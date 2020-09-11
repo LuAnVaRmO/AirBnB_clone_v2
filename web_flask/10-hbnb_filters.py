@@ -4,7 +4,7 @@
 from flask import Flask, render_template
 from models import storage
 from models.state import State
-from models.state import Amenity
+from models import Amenity
 
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def list_cities_states():
     return render_template('10-hbnb_filters.html', states=states, amenities=amenities)
 
 
-@app.teardown_appcontexts
+@app.teardown_appcontext
 def close_db(db):
     storage.close()
 

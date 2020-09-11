@@ -4,12 +4,12 @@
 <head>
 	<title>hbnb Clone</title>
 	<!--Icon page-->
-	<link rel="icon" href="images/icon.png">
+	<link rel="icon" href="web_flask/static/images/logo.png">
 	<!--Start Stylesheet import-->
-	<link href="..static/styles/4-common.css" type="text/css" rel="stylesheet">
-	<link href="..static/styles/3-header.css" type="text/css" rel="stylesheet">
-	<link href="..static/styles/3-footer.css" type="text/css" rel="stylesheet">
-	<link href="..static/styles/6-filters.css" type="text/css" rel="stylesheet">
+	<link href="../static/styles/4-common.css" type="text/css" rel="stylesheet">
+	<link href="../static/styles/3-header.css" type="text/css" rel="stylesheet">
+	<link href="../static/styles/3-footer.css" type="text/css" rel="stylesheet">
+	<link href="../static/styles/6-filters.css" type="text/css" rel="stylesheet">
 	<!--End Stylesheet import-->
 </head>
 
@@ -45,7 +45,7 @@
 				<h4>&nbsp;</h4>
 					<!--Pop over / Hover section-->
 					<ul class="popover">
-						<{% for amenity in amenities|sort(attribute='name') %}
+						{% for amenity in amenities|sort(attribute='name') %}
 						<li><h4>{{ amenity.name }}</h4></li>
 						{% endfor %}
 					</ul>
